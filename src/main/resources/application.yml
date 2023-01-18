@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/animoly?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: Coco123!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-request-size: 1000MB
+      max-file-size: 1000MB
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+toy:
+  animoly:
+    jwtSecret: AnimolySecretKey123AnimolySecretKey123AnimolySecretKey123AnimolySecretKey123AnimolySecretKey123
+    jwtExpirationMs: 86400000
