@@ -9,6 +9,7 @@ import javax.persistence.Id;
 @Entity
 public class User {
     @Id
+    @Column
     private String userId;
 
     @Column
