@@ -18,7 +18,7 @@ public class Post {
     @Column(name = "post_id")
     private Long id;
     private String title;
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
     private LocalDateTime createdAt;
     @OneToMany(mappedBy = "post")
