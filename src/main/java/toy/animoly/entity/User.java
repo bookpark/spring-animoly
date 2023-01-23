@@ -29,5 +29,7 @@ public class User {
     private List<Comment> comments = new ArrayList<>();
     @OneToMany(mappedBy = "user")
     private List<Blog> blogs = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Adoption> adoptions = new ArrayList<>();
 
 }
