@@ -31,5 +31,7 @@ public class User {
     private List<Blog> blogs = new ArrayList<>();
     @OneToMany(mappedBy = "user")
     private List<Adoption> adoptions = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
 }

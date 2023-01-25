@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,5 +19,7 @@ public class Animal {
     private Long id;
     @OneToMany(mappedBy = "animal")
     private List<Adoption> adoptions = new ArrayList<>();
+    @OneToMany(mappedBy = "animal")
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
 }
