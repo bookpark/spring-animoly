@@ -21,8 +21,19 @@ public class Adoption {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "animal_id")
     private Animal animal;
+
+    // 연관관계 메서드 //
+    public void setUser(User user) {
+        this.user = user;
+        user.getAdoptions().add(this);
+    }
+
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
+        animal.setAdoption(this);
+    }
 
 }

@@ -1,5 +1,6 @@
 package toy.animoly.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,8 +42,9 @@ public class Animal {
     private String chargeNm;
     private String officetel;
     private String noticeComment;
-    @OneToMany(mappedBy = "animal")
-    private List<Adoption> adoptions = new ArrayList<>();
+    @JsonIgnore
+    @OneToOne(mappedBy = "animal", fetch = FetchType.LAZY)
+    private Adoption adoption;
     @OneToMany(mappedBy = "animal")
     private List<Bookmark> bookmarks = new ArrayList<>();
 
