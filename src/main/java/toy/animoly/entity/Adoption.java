@@ -46,8 +46,7 @@ public class Adoption {
         return adoption;
     }
 
-    // 로직
-
+    // 비즈니스 로직
     /**
      * 입양 취소
      */
