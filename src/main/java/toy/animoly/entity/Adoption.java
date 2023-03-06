@@ -46,4 +46,16 @@ public class Adoption {
         return adoption;
     }
 
+    // 로직
+
+    /**
+     * 입양 취소
+     */
+    public void cancel() {
+        if (this.getStatus() == AdoptionStatus.COMPLETED) {
+            throw new IllegalStateException("이미 처리 된 입양 건은 취소가 불가능합니다.");
+        }
+        this.setStatus(AdoptionStatus.CANCELED);
+    }
+
 }
