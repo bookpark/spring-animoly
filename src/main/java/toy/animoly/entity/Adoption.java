@@ -36,4 +36,14 @@ public class Adoption {
         animal.setAdoption(this);
     }
 
+    // 생성 메서드 //
+    public static Adoption createAdoption(User user, Animal animal) {
+        Adoption adoption = new Adoption();
+        adoption.setUser(user);
+        adoption.setAnimal(animal);
+        adoption.setStatus(AdoptionStatus.APPLIED);
+        adoption.setApplyDate(LocalDateTime.now());
+        return adoption;
+    }
+
 }
