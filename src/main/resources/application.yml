@@ -18,6 +18,20 @@ spring:
         show_sql: true
         format_sql: true
         use_sql_comments: true
+
+logging:
+  level:
+    org.hibernate.sql: debug
+    org.hibernate.type: trace
+
+decorator:
+  datasource:
+    # p6spy 설정 적용
+    p6spy:
+      enable-logging: true
+      multiline: true
+      logging: slf4j
+
 toy:
   animoly:
     jwtSecret: AnimolySecretKey123AnimolySecretKey123AnimolySecretKey123AnimolySecretKey123AnimolySecretKey123
