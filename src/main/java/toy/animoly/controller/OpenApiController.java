@@ -1,15 +1,22 @@
 package toy.animoly.controller;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import toy.animoly.entity.Animal;
+import toy.animoly.repository.AnimalRepository;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -17,7 +24,9 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
+@RequiredArgsConstructor
 public class OpenApiController {
+    private final AnimalRepository animalRepository;
     @Value("${toy.animoly.api.endPoint}")
     private String apiEndPoint;
     @Value("${toy.animoly.api.detail}")
@@ -29,9 +38,32 @@ public class OpenApiController {
     @Value("${toy.animoly.api.numOfRows}")
     private int numOfRows;
 
-    @SneakyThrows
-    @GetMapping("/api/fetch-animals")// Exception 처리 해주는 lombok annotation
+    @GetMapping("/api/fetch-animals")
     public List<AnimalDto> fetchAnimals() {
+        JSONArray animals = getAnimals();
+
+        // 결과 값 DTO로 반환 후 리턴
+        List<AnimalDto> result = new ArrayList<>();
+        for (Object o : animals) {
+            JSONObject item = (JSONObject) o;
+            result.add(selectItem(item));
+        }
+        return result;
+    }
+
+    @GetMapping("/api/save-animals")
+    public void saveAnimals() throws JsonProcessingException {
+        JSONArray animals = getAnimals();
+        ObjectMapper mapper = new ObjectMapper();
+        for (Object o : animals) {
+            JSONObject animalO = (JSONObject) o;
+            Animal animal = mapper.readValue(animalO.toString(), Animal.class);
+            animalRepository.save(animal);
+        }
+    }
+
+    @SneakyThrows // Exception 처리 해주는 lombok annotation
+    private JSONArray getAnimals() {
         // api 호출 후 결과 값 xmlString에 담기
         RestTemplate rt = new RestTemplate();
         URI uri = new URI(apiEndPoint + detail + "?serviceKey=" + encodingKey + "&numOfRows=" + numOfRows);
@@ -45,14 +77,7 @@ public class OpenApiController {
         JSONObject jsonBody = (JSONObject) jsonResponse.get("body");
         JSONObject jsonItems = (JSONObject) jsonBody.get("items");
         JSONArray jsonItemList = (JSONArray) jsonItems.get("item");
-
-        // 결과 값 DTO로 반환 후 리턴
-        List<AnimalDto> result = new ArrayList<>();
-        for (Object o : jsonItemList) {
-            JSONObject item = (JSONObject) o;
-            result.add(selectItem(item));
-        }
-        return result;
+        return jsonItemList;
     }
 
     @Builder
