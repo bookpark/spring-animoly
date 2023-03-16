@@ -1,3 +1,6 @@
+### Custom ###
+src/main/resources/secrets.yml
+
 HELP.md
 .gradle
 build/
