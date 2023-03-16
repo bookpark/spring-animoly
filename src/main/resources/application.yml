@@ -19,6 +19,8 @@ spring:
         format_sql: true
         use_sql_comments: true
         default_batch_fetch_size: 100
+  config:
+    import: secrets.yml
 
 logging:
   level:
@@ -32,8 +34,3 @@ decorator:
       enable-logging: true
       multiline: true
       logging: slf4j
-
-toy:
-  animoly:
-    jwtSecret: AnimolySecretKey123AnimolySecretKey123AnimolySecretKey123AnimolySecretKey123AnimolySecretKey123
-    jwtExpirationMs: 86400000
