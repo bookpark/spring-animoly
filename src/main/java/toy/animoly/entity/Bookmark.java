@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * 동물 즐겨찾기
+ */
 @Entity
 @Getter
 @Setter

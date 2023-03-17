@@ -6,6 +6,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Community
+ */
 @Entity
 @Getter
 @Setter

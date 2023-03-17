@@ -6,6 +6,10 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+
+/**
+ * Admin 정보글 쓰기
+ */
 @Entity
 @Getter
 @Setter

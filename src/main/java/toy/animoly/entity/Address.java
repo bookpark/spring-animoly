@@ -4,6 +4,9 @@ import lombok.Getter;
 
 import javax.persistence.Embeddable;
 
+/**
+ * User 의 주소
+ */
 @Embeddable
 @Getter
 public class Address {
@@ -18,5 +21,4 @@ public class Address {
         this.street = street;
         this.zipcode = zipcode;
     }
-
 }

@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 공공데이터 API
+ */
 @Entity
 @Getter
 @Setter
