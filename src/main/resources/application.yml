@@ -10,7 +10,7 @@ spring:
       max-file-size: 1000MB
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
