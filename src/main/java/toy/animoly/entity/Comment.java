@@ -25,4 +25,25 @@ public class Comment {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    // 연관관계 메서드 //
+    public void setUser(User user) {
+        this.user = user;
+        user.getComments().add(this);
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+        post.getComments().add(this);
+    }
+
+    // 생성 메서드 //
+    public static Comment createComment(User user, Post post) {
+        Comment comment = new Comment();
+        comment.setUser(user);
+        comment.setPost(post);
+        comment.setContent(post.getContent());
+        comment.setCreatedAt(LocalDateTime.now());
+        return comment;
+    }
+
 }

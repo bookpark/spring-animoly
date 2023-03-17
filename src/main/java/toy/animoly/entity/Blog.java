@@ -22,4 +22,21 @@ public class Blog {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    // 연관관계 메서드 //
+    public void setUser(User user) {
+        this.user = user;
+        user.getBlogs().add(this);
+    }
+
+    // 생성 메서드 //
+    public static Blog createBlog(User user) {
+        Blog blog = new Blog();
+        blog.setUser(user);
+        blog.setTitle(blog.getTitle());
+        blog.setContent(blog.getContent());
+        blog.setCreatedAt(LocalDateTime.now());
+        return blog;
+    }
+
 }
