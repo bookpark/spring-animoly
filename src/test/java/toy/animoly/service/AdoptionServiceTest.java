@@ -47,4 +47,47 @@ class AdoptionServiceTest {
         assertEquals("10", getAdoption.getAnimal().getAge());
         assertEquals(AdoptionStatus.APPLIED, getAdoption.getStatus());
     }
+
+    @Test
+    void requestCancel() {
+        //given
+        User user = new User();
+        user.setId("userA");
+        userRepository.save(user);
+        Animal animal = new Animal();
+        animal.setId(1L);
+        animal.setAge("10");
+        animalRepository.save(animal);
+
+        //when
+        Long adoptionId = adoptionService.apply(user.getId(), animal.getId());
+        Adoption adoption = adoptionRepository.findById(adoptionId).orElseThrow();
+
+        //then
+        adoptionService.requestCancel(adoption.getId());
+
+        assertEquals(AdoptionStatus.CANCEL_REQUESTED, adoption.getStatus());
+    }
+
+    @Test
+    void approveCancel() {
+        //given
+        User user = new User();
+        user.setId("userA");
+        userRepository.save(user);
+        Animal animal = new Animal();
+        animal.setId(1L);
+        animal.setAge("10");
+        animalRepository.save(animal);
+
+        //when
+        Long adoptionId = adoptionService.apply(user.getId(), animal.getId());
+        Adoption adoption = adoptionRepository.findById(adoptionId).orElseThrow();
+        adoptionService.requestCancel(adoption.getId());
+
+        //then
+        adoptionService.approveCancel(adoption.getId());
+
+        assertEquals(AdoptionStatus.CANCELED, adoption.getStatus());
+    }
 }
