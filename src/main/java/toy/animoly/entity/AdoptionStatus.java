@@ -3,6 +3,6 @@ package toy.animoly.entity;
 public enum AdoptionStatus {
 
     APPLIED, PROCESSING, COMPLETED,
-    CANCELED
+    CANCEL_REQUESTED, CANCELED
 
 }

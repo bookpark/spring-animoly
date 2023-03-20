@@ -48,12 +48,19 @@ public class Adoption {
 
     // 비즈니스 로직
     /**
-     * 입양 취소
+     * 입양 취소 요청
      */
-    public void cancel() {
+    public void requestCancel() {
         if (this.getStatus() == AdoptionStatus.COMPLETED) {
             throw new IllegalStateException("이미 처리 된 입양 건은 취소가 불가능합니다.");
         }
+        this.setStatus(AdoptionStatus.CANCEL_REQUESTED);
+    }
+
+    /**
+     * 입양 취소 승인
+     */
+    public void approveCancel() {
         this.setStatus(AdoptionStatus.CANCELED);
     }
 
