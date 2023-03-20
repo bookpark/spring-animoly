@@ -35,4 +35,22 @@ public class AdoptionService {
 
         return adoption.getId();
     }
+
+    /**
+     * 입양 취소 신청
+     */
+    @Transactional
+    public void requestCancel(Long adoptionId) {
+        Adoption adoption = adoptionRepository.findById(adoptionId).orElseThrow();
+        adoption.requestCancel();
+    }
+
+    /**
+     * 입양 취소 승인
+     */
+    @Transactional
+    public void approveCancel(Long adoptionId) {
+        Adoption adoption = adoptionRepository.findById(adoptionId).orElseThrow();
+        adoption.approveCancel();
+    }
 }
