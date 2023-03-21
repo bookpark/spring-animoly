@@ -15,10 +15,10 @@ public class Bookmark {
     @Column(name = "bookmark_id")
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", unique = true)
+    @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "animal_id", unique = true)
+    @JoinColumn(name = "animal_id")
     private Animal animal;
 
     // 연관관계 메서드 //

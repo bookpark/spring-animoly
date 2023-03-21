@@ -21,7 +21,7 @@ public class Adoption {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
@@ -33,7 +33,7 @@ public class Adoption {
 
     public void setAnimal(Animal animal) {
         this.animal = animal;
-        animal.setAdoption(this);
+        animal.getAdoptions().add(this);
     }
 
     // 생성 메서드 //

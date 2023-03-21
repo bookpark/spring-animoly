@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,8 +41,9 @@ public class Animal {
     private String officetel;
     private String noticeComment;
     @JsonIgnore
-    @OneToOne(mappedBy = "animal", fetch = FetchType.LAZY)
-    private Adoption adoption;
+    @OneToMany(mappedBy = "animal")
+    private List<Adoption> adoptions = new ArrayList<>();
+    @JsonIgnore
     @OneToMany(mappedBy = "animal")
     private List<Bookmark> bookmarks = new ArrayList<>();
 }
