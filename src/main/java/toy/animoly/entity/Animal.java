@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Getter
@@ -42,8 +40,8 @@ public class Animal {
     private String noticeComment;
     @JsonIgnore
     @OneToMany(mappedBy = "animal")
-    private List<Adoption> adoptions = new ArrayList<>();
+    private Set<Adoption> adoptions = new HashSet<>();
     @JsonIgnore
-    @OneToMany(mappedBy = "animal")
-    private List<Bookmark> bookmarks = new ArrayList<>();
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL)
+    private Set<Bookmark> bookmarks = new HashSet<>();
 }
