@@ -23,6 +23,9 @@ public class AnimalJpaRepository {
         return query
                 .select(animal)
                 .from(animal)
+                .offset(0)
+                .limit(100)
+                .orderBy(animal.happenDt.desc())
                 .fetch();
     }
 }
