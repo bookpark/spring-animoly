@@ -17,7 +17,7 @@ public class AnimalService {
     private final AnimalJpaRepository animalJpaRepository;
 
     public List<Animal> getAnimals() {
-        return animalRepository.findAll();
+        return animalJpaRepository.findAll();
     }
 
     public Animal getAnimal(Long id) {
