@@ -7,8 +7,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class AnimalListDto {
     private Long desertionNo;
-    private String popfile;
+    private String filename;
     private String ageCd;
     private String sexCd;
     private String processState;
+    private String happenDt;
 }

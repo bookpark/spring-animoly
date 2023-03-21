@@ -31,7 +31,8 @@ public class AnimalApiController {
                         a.getFilename(),
                         a.getAge(),
                         a.getSexCd(),
-                        a.getProcessState()
+                        a.getProcessState(),
+                        a.getHappenDt()
                 ))
                 .collect(Collectors.toList());
         return new Result(collect);

@@ -85,6 +85,7 @@ public class OpenApiController {
     public static class AnimalDto {
         private String noticeNo;
         private String processState;
+        private String happenDt;
         private String sex;
         private String kind;
         private String age;
