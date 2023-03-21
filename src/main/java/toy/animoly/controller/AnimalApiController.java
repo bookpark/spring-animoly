@@ -17,13 +17,18 @@ import java.util.stream.Collectors;
 public class AnimalApiController {
     private final AnimalService animalService;
 
-    @GetMapping("/api/animals")
-    public Result getAnimals() {
+    @GetMapping("/api/animalsV1")
+    public List<Animal> getAnimalsV1() {
+        return animalService.getAnimals();
+    }
+
+    @GetMapping("/api/animalsV2")
+    public Result getAnimalsV2() {
         List<Animal> animals = animalService.getAnimals();
         List<AnimalListDto> collect = animals.stream()
                 .map(a -> new AnimalListDto(
                         a.getDesertionNo(),
-                        a.getPopfile(),
+                        a.getFilename(),
                         a.getAge(),
                         a.getSexCd(),
                         a.getProcessState()

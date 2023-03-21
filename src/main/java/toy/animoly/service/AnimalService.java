@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toy.animoly.entity.Animal;
+import toy.animoly.repository.AnimalJpaRepository;
 import toy.animoly.repository.AnimalRepository;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnimalService {
     private final AnimalRepository animalRepository;
+    private final AnimalJpaRepository animalJpaRepository;
 
     public List<Animal> getAnimals() {
         return animalRepository.findAll();
