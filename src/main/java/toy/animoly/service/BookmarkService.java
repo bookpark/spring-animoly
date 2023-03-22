@@ -10,8 +10,6 @@ import toy.animoly.repository.AnimalRepository;
 import toy.animoly.repository.BookmarkRepository;
 import toy.animoly.repository.UserRepository;
 
-import java.util.Optional;
-
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
