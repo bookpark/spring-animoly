@@ -1,22 +1,19 @@
 package toy.animoly.controller;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Builder;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import lombok.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import toy.animoly.entity.Animal;
 import toy.animoly.repository.AnimalRepository;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,32 +34,56 @@ public class OpenApiController {
     private int numOfRows;
 
     @GetMapping("/api/fetch-animals")
-    public List<AnimalDto> fetchAnimals() {
-        JSONArray animals = getAnimals();
+    public Result fetchAnimals(@RequestParam(defaultValue = "1", required = false) String pageNo,
+                               @RequestParam(defaultValue = "", required = false) String upKind,
+                               @RequestParam(defaultValue = "", required = false) String kind,
+                               @RequestParam(defaultValue = "", required = false) String uprCd) throws URISyntaxException {
+        RestTemplate rt = new RestTemplate();
+        try {
+            URI uri = new URI(apiEndPoint + detail + "?serviceKey=" + encodingKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&upkind=" + upKind + "&kind=" + kind + "&upr_cd=" + uprCd);
+            String xmlString = rt.getForObject(uri, String.class);
+            // org.json 라이브러리로 xmlString을 jsonString으로 변환
+            JSONObject jsonObject = XML.toJSONObject(Objects.requireNonNull(xmlString));
 
-        // 결과 값 DTO로 반환 후 리턴
-        List<AnimalDto> result = new ArrayList<>();
-        for (Object o : animals) {
-            JSONObject item = (JSONObject) o;
-            result.add(selectItem(item));
+            // json parsing
+            JSONObject jsonResponse = (JSONObject) jsonObject.get("response");
+            JSONObject jsonBody = (JSONObject) jsonResponse.get("body");
+            JSONObject jsonItems = (JSONObject) jsonBody.get("items");
+            JSONArray jsonItem = (JSONArray) jsonItems.get("item");
+
+            List<AnimalDto> collect = new ArrayList<>();
+            for (Object o : jsonItem) {
+                JSONObject item = (JSONObject) o;
+                collect.add(selectItem(item));
+            }
+
+            Object totalCountObject = jsonBody.get("totalCount");
+            String totalCountString = totalCountObject.toString();
+
+            Object numOfRowsObject = jsonBody.get("numOfRows");
+            String numOfRowsString = numOfRowsObject.toString();
+
+            return new Result(collect, pageNo, numOfRowsString, totalCountString);
+        } catch (ClassCastException e) {
+            return new Result(e);
         }
-        return result;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Result<T> {
+        private T data;
+        private T pageNo;
+        private T numOfRows;
+        private T totalCount;
+
+        public Result(ClassCastException e) {
+        }
     }
 
     @GetMapping("/api/save-animals")
-    public void saveAnimals() throws JsonProcessingException {
-        JSONArray animals = getAnimals();
-        ObjectMapper mapper = new ObjectMapper();
-        for (Object o : animals) {
-            JSONObject animalO = (JSONObject) o;
-            Animal animal = mapper.readValue(animalO.toString(), Animal.class);
-            animalRepository.save(animal);
-        }
-    }
-
-    @SneakyThrows // Exception 처리 해주는 lombok annotation
-    private JSONArray getAnimals() {
-        // api 호출 후 결과 값 xmlString에 담기
+    @SneakyThrows
+    public void saveAnimals() {
         RestTemplate rt = new RestTemplate();
         URI uri = new URI(apiEndPoint + detail + "?serviceKey=" + encodingKey + "&numOfRows=" + numOfRows);
         String xmlString = rt.getForObject(uri, String.class);
@@ -74,8 +95,14 @@ public class OpenApiController {
         JSONObject jsonResponse = (JSONObject) jsonObject.get("response");
         JSONObject jsonBody = (JSONObject) jsonResponse.get("body");
         JSONObject jsonItems = (JSONObject) jsonBody.get("items");
-        JSONArray jsonItemList = (JSONArray) jsonItems.get("item");
-        return jsonItemList;
+        JSONArray animals = (JSONArray) jsonItems.get("item");
+
+        ObjectMapper mapper = new ObjectMapper();
+        for (Object o : animals) {
+            JSONObject animalO = (JSONObject) o;
+            Animal animal = mapper.readValue(animalO.toString(), Animal.class);
+            animalRepository.save(animal);
+        }
     }
 
     @Builder
