@@ -25,6 +25,16 @@ public class UserService {
     }
 
     /**
+     * 정보수정
+     */
+    @Transactional
+    public void update(String id, String nickname, String phoneNumber) {
+        User user = userRepository.findById(id).orElseThrow();
+        user.setNickname(nickname);
+        user.setPhoneNumber(phoneNumber);
+    }
+
+    /**
      * 중복 회원 검사
      */
     private void validateDuplicateUser(User user) {
