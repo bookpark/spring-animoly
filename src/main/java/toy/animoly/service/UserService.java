@@ -17,6 +17,7 @@ public class UserService {
     /**
      * 회원가입
      */
+    @Transactional
     public String join(User user) {
         validateDuplicateUser(user);
         userRepository.save(user);
