@@ -57,13 +57,15 @@ public class OpenApiController {
                 collect.add(selectItem(item));
             }
 
+            // 총 갯수 가져오기
             Object totalCountObject = jsonBody.get("totalCount");
             String totalCountString = totalCountObject.toString();
 
+            // 페이지 당 갯수 가져오기
             Object numOfRowsObject = jsonBody.get("numOfRows");
             String numOfRowsString = numOfRowsObject.toString();
 
-            return new Result(collect, pageNo, numOfRowsString, totalCountString);
+            return new Result(collect, pageNo, jsonItem.length(), totalCountString);
         } catch (ClassCastException e) {
             return new Result(e);
         }
