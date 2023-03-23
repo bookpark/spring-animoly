@@ -16,7 +16,7 @@ public class UserApiController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/api/join")
-    public JoinUserResponse join(JoinUserRequest request) {
+    public CreateUserResponse join(CreateUserRequest request) {
         User user = new User();
         user.setId(request.getId());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -24,11 +24,11 @@ public class UserApiController {
         user.setPhoneNumber(request.getPhoneNumber());
         user.setAddress(new Address(request.getCity(), request.getStreet(), request.getZipcode()));
         String id = userService.join(user);
-        return new JoinUserResponse(id);
+        return new CreateUserResponse(id);
     }
 
     @Data
-    static class JoinUserRequest {
+    static class CreateUserRequest {
         private String id;
         private String password;
         private String nickname;
@@ -39,10 +39,10 @@ public class UserApiController {
     }
 
     @Data
-    static class JoinUserResponse {
+    static class CreateUserResponse {
         private String id;
 
-        public JoinUserResponse(String id) {
+        public CreateUserResponse(String id) {
             this.id = id;
         }
     }
