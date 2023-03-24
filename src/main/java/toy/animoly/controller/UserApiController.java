@@ -14,7 +14,6 @@ import toy.animoly.service.UserService;
 public class UserApiController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
 
     @PostMapping("/api/users/join")
     public CreateUserResponse join(CreateUserRequest request) {
