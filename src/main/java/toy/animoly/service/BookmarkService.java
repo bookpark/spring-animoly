@@ -19,9 +19,9 @@ public class BookmarkService {
     private final AnimalRepository animalRepository;
 
     @Transactional
-    public Long createBookmark(User user, Animal animal) {
-        User getUser = userRepository.findById(user.getId()).orElseThrow();
-        Animal getAnimal = animalRepository.findById(animal.getId()).orElseThrow();
+    public Long createBookmark(String userId, Long desertionNo) {
+        User getUser = userRepository.findById(userId).orElseThrow();
+        Animal getAnimal = animalRepository.findByDesertionNo(desertionNo);
         Bookmark bookmark = Bookmark.createBookmark(getUser, getAnimal);
         return bookmark.getId();
     }
