@@ -3,10 +3,7 @@ package toy.animoly.controller;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import toy.animoly.entity.Address;
 import toy.animoly.entity.User;
 import toy.animoly.repository.UserRepository;
@@ -35,7 +32,7 @@ public class UserApiController {
     public UpdateUserResponse update(@PathVariable("id") String id,
                                      UpdateUserRequest request) {
         userService.update(id, request.getNickname(), request.getPhoneNumber());
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userService.findUser(id);
         return new UpdateUserResponse(user.getId());
     }
 

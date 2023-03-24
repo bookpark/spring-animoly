@@ -25,6 +25,13 @@ public class UserService {
     }
 
     /**
+     * 회원 조회
+     */
+    public User findUser(String id) {
+        return userRepository.findById(id).orElseThrow();
+    }
+
+    /**
      * 정보수정
      */
     @Transactional
