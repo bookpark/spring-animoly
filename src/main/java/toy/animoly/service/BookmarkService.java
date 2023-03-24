@@ -10,6 +10,8 @@ import toy.animoly.repository.AnimalRepository;
 import toy.animoly.repository.BookmarkRepository;
 import toy.animoly.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -30,5 +32,10 @@ public class BookmarkService {
     public void deleteBookmark(Long id) {
         Bookmark bookmark = bookmarkRepository.findById(id).orElseThrow();
         bookmarkRepository.delete(bookmark);
+    }
+
+    public List<Bookmark> getList(String userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        return user.getBookmarks();
     }
 }
