@@ -11,6 +11,7 @@ import toy.animoly.repository.AnimalRepository;
 import toy.animoly.repository.BookmarkRepository;
 import toy.animoly.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +25,9 @@ class BookmarkServiceTest {
     AnimalRepository animalRepository;
     @Autowired
     BookmarkRepository bookmarkRepository;
+    @Autowired
+    BookmarkService bookmarkService;
+
     @Test
     void createBookmark() {
         //given
@@ -60,12 +64,30 @@ class BookmarkServiceTest {
         bookmarkRepository.save(bookmark);
         Long id = bookmark.getId();
         System.out.println(id);
-        assertEquals(6L, bookmark.getId());
+        assertEquals(1L, bookmark.getId());
 
         //when
-        bookmarkRepository.delete(bookmark);
+        bookmarkService.deleteBookmark(bookmark.getId());
 
         //then
         assertEquals(Optional.empty(), bookmarkRepository.findById(bookmark.getId()));
+    }
+
+    @Test
+    void getList() {
+        //given
+        User user = new User();
+        user.setId("bookpark");
+        userRepository.save(user);
+        Animal animal = new Animal();
+        animal.setDesertionNo(1L);
+        animalRepository.save(animal);
+        bookmarkService.createBookmark(user.getId(), animal.getDesertionNo());
+
+        //when
+        List<Bookmark> list = bookmarkService.getList(user.getId());
+
+        //then
+        assertEquals(1, list.size());
     }
 }
