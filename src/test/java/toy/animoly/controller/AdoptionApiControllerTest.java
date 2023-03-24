@@ -33,7 +33,7 @@ class AdoptionApiControllerTest {
         user.setId("bookpark");
         userRepository.save(user);
         Animal animal = new Animal();
-        animal.setId(1L);
+        animal.setDesertionNo(1L);
         animalRepository.save(animal);
         String requestJson = "{\"userId\":\"bookpark\", \"animalId\": \"1\"}";
         mockMvc.perform(MockMvcRequestBuilders.post("/api/apply")
