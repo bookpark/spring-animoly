@@ -6,7 +6,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import toy.animoly.entity.Address;
 import toy.animoly.entity.User;
-import toy.animoly.repository.UserRepository;
 import toy.animoly.service.UserService;
 
 @RestController
