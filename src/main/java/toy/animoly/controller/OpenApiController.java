@@ -112,6 +112,7 @@ public class OpenApiController {
     // private field에도 접근하게 해주어 json으로 변환하는데 사용되게 함
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     public static class AnimalDto {
+        private Long desertionNo;
         private String noticeNo;
         private String processState;
         private String happenDt;
@@ -131,6 +132,7 @@ public class OpenApiController {
     // 반환된 json object 중 필요한 field값만 가져와 dto로 전달하는 메서드
     public AnimalDto selectItem(JSONObject item) {
         return AnimalDto.builder()
+                .desertionNo((Long) item.get("desertionNo"))
                 .noticeNo((String) item.get("noticeNo"))
                 .processState((String) item.get("processState"))
                 .sex((String) item.get("sexCd"))
