@@ -32,6 +32,8 @@ public class OpenApiController {
     private String decodingKey;
     @Value("${toy.animoly.api.numOfRows}")
     private int numOfRows;
+    @Value("${toy.animoly.api.saveNumOfRows}")
+    private int saveNumOfRows;
 
     @GetMapping("/api/fetch-animals")
     public Result fetchAnimals(@RequestParam(defaultValue = "1", required = false) String pageNo,
@@ -87,7 +89,7 @@ public class OpenApiController {
     @SneakyThrows
     public void saveAnimals() {
         RestTemplate rt = new RestTemplate();
-        URI uri = new URI(apiEndPoint + detail + "?serviceKey=" + encodingKey + "&numOfRows=" + numOfRows);
+        URI uri = new URI(apiEndPoint + detail + "?serviceKey=" + encodingKey + "&numOfRows=" + saveNumOfRows);
         String xmlString = rt.getForObject(uri, String.class);
 
         // org.json 라이브러리로 xmlString을 jsonString으로 변환
