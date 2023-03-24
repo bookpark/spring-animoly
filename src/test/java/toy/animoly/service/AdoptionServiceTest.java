@@ -33,12 +33,12 @@ class AdoptionServiceTest {
         user.setId("userA");
         userRepository.save(user);
         Animal animal = new Animal();
-        animal.setId(1L);
+        animal.setDesertionNo(1L);
         animal.setAge("10");
         animalRepository.save(animal);
 
         //when
-        Long adoptionId = adoptionService.apply(user.getId(), animal.getId());
+        Long adoptionId = adoptionService.apply(user.getId(), animal.getDesertionNo());
 
         //then
         Adoption getAdoption = adoptionRepository.findById(adoptionId).orElseThrow();
@@ -55,12 +55,12 @@ class AdoptionServiceTest {
         user.setId("userA");
         userRepository.save(user);
         Animal animal = new Animal();
-        animal.setId(1L);
+        animal.setDesertionNo(1L);
         animal.setAge("10");
         animalRepository.save(animal);
 
         //when
-        Long adoptionId = adoptionService.apply(user.getId(), animal.getId());
+        Long adoptionId = adoptionService.apply(user.getId(), animal.getDesertionNo());
         Adoption adoption = adoptionRepository.findById(adoptionId).orElseThrow();
 
         //then
@@ -76,12 +76,12 @@ class AdoptionServiceTest {
         user.setId("userA");
         userRepository.save(user);
         Animal animal = new Animal();
-        animal.setId(1L);
+        animal.setDesertionNo(1L);
         animal.setAge("10");
         animalRepository.save(animal);
 
         //when
-        Long adoptionId = adoptionService.apply(user.getId(), animal.getId());
+        Long adoptionId = adoptionService.apply(user.getId(), animal.getDesertionNo());
         Adoption adoption = adoptionRepository.findById(adoptionId).orElseThrow();
         adoptionService.requestCancel(adoption.getId());
 
