@@ -12,9 +12,7 @@ import java.util.*;
 @Setter
 public class Animal {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "animal_id")
-    private Long id;
     private Long desertionNo;
     private String filename;
     private String happenDt;
