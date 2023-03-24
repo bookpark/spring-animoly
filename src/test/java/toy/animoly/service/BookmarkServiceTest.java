@@ -32,9 +32,9 @@ class BookmarkServiceTest {
         userRepository.save(user);
         assertEquals("Booki", user.getId());
         Animal animal = new Animal();
-        animal.setId(1L);
+        animal.setDesertionNo(1L);
         animalRepository.save(animal);
-        assertEquals(1L, animal.getId());
+        assertEquals(1L, animal.getDesertionNo());
 
         //when
         Bookmark bookmark = Bookmark.createBookmark(user, animal);
@@ -42,7 +42,7 @@ class BookmarkServiceTest {
 
         //then
         assertEquals("Booki", bookmark.getUser().getId());
-        assertEquals(1L, bookmark.getAnimal().getId());
+        assertEquals(1L, bookmark.getAnimal().getDesertionNo());
     }
 
     @Test
@@ -53,9 +53,9 @@ class BookmarkServiceTest {
         userRepository.save(user);
         assertEquals("Booki", user.getId());
         Animal animal = new Animal();
-        animal.setId(1L);
+        animal.setDesertionNo(1L);
         animalRepository.save(animal);
-        assertEquals(1L, animal.getId());
+        assertEquals(1L, animal.getDesertionNo());
         Bookmark bookmark = Bookmark.createBookmark(user, animal);
         bookmarkRepository.save(bookmark);
         Long id = bookmark.getId();
