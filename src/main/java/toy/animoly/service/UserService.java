@@ -42,6 +42,15 @@ public class UserService {
     }
 
     /**
+     * 회원탈퇴
+     */
+    @Transactional
+    public void delete(String id) {
+        User user = userRepository.findById(id).orElseThrow();
+        userRepository.delete(user);
+    }
+
+    /**
      * 중복 회원 검사
      */
     private void validateDuplicateUser(User user) {

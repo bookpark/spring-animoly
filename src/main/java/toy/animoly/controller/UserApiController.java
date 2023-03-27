@@ -2,6 +2,8 @@ package toy.animoly.controller;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import toy.animoly.entity.Address;
@@ -32,6 +34,12 @@ public class UserApiController {
         userService.update(id, request.getNickname(), request.getPhoneNumber());
         User user = userService.findUser(id);
         return new UpdateUserResponse(user.getId());
+    }
+
+    @DeleteMapping("/api/users/{id}/delete")
+    public ResponseEntity<String> delete(@PathVariable("id") String id) {
+        userService.delete(id);
+        return new ResponseEntity<String>("회원 탈퇴 성공", HttpStatus.OK);
     }
 
     @Data
