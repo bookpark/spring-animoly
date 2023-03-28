@@ -31,9 +31,9 @@ public class UserApiController {
     @PutMapping("/api/users/{id}/update")
     public UpdateUserResponse update(@PathVariable("id") String id,
                                      UpdateUserRequest request) {
-        userService.update(id, request.getNickname(), request.getPhoneNumber());
+        userService.update(id, request.getNickname());
         User user = userService.findUser(id);
-        return new UpdateUserResponse(user.getId());
+        return new UpdateUserResponse(user.getId(), user.getNickname());
     }
 
     @DeleteMapping("/api/users/{id}/delete")
@@ -65,15 +65,16 @@ public class UserApiController {
     @Data
     static class UpdateUserRequest {
         private String nickname;
-        private String phoneNumber;
     }
 
     @Data
     static class UpdateUserResponse {
         private String id;
+        private String nickname;
 
-        public UpdateUserResponse(String id) {
+        public UpdateUserResponse(String id, String nickname) {
             this.id = id;
+            this.nickname = nickname;
         }
     }
 

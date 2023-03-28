@@ -32,13 +32,12 @@ public class UserService {
     }
 
     /**
-     * 정보수정
+     * 닉네임변경
      */
     @Transactional
-    public void update(String id, String nickname, String phoneNumber) {
+    public void update(String id, String nickname) {
         User user = userRepository.findById(id).orElseThrow();
         user.setNickname(nickname);
-        user.setPhoneNumber(phoneNumber);
     }
 
     /**
