@@ -30,11 +30,11 @@ public class Blog {
     }
 
     // 생성 메서드 //
-    public static Blog createBlog(User user) {
+    public static Blog createBlog(User user, String title, String content) {
         Blog blog = new Blog();
         blog.setUser(user);
-        blog.setTitle(blog.getTitle());
-        blog.setContent(blog.getContent());
+        blog.setTitle(title);
+        blog.setContent(content);
         blog.setCreatedAt(LocalDateTime.now());
         return blog;
     }
