@@ -16,7 +16,7 @@ public class Blog {
     @Column(name = "blog_id")
     private Long id;
     private String title;
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
     private LocalDateTime createdAt;
     @ManyToOne(fetch = FetchType.LAZY)
