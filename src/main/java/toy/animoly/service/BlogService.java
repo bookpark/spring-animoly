@@ -22,4 +22,12 @@ public class BlogService {
         blogRepository.save(blog);
         return blog.getId();
     }
+
+    @Transactional
+    public void update(Long id, String title, String content) {
+        Blog blog = blogRepository.findById(id).orElseThrow();
+        blog.setTitle(title);
+        blog.setContent(content);
+        blogRepository.save(blog);
+    }
 }
