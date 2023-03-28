@@ -30,4 +30,10 @@ public class BlogService {
         blog.setContent(content);
         blogRepository.save(blog);
     }
+
+    @Transactional
+    public void delete(Long id) {
+        Blog blog = blogRepository.findById(id).orElseThrow();
+        blogRepository.delete(blog);
+    }
 }

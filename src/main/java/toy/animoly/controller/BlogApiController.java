@@ -2,10 +2,10 @@ package toy.animoly.controller;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import toy.animoly.service.BlogService;
 
 @RestController
@@ -22,6 +22,12 @@ public class BlogApiController {
     public void update(@PathVariable("id") Long id,
                        UpdateBlogRequest request) {
         blogService.update(id, request.getTitle(), request.getContent());
+    }
+
+    @DeleteMapping("/api/blogs/{id}/delete")
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
+        blogService.delete(id);
+        return new ResponseEntity<String>("블로그 글 삭제 성공", HttpStatus.OK);
     }
 
     @Data
