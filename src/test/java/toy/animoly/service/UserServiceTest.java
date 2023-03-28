@@ -46,4 +46,19 @@ class UserServiceTest {
         IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> userService.join(user2));
         assertEquals("이미 존재하는 ID입니다.", thrown.getMessage());
     }
+
+    @Test
+    void update() {
+        //given
+        User user = new User();
+        user.setId("bookpark");
+        user.setNickname("닉네임");
+        userRepository.save(user);
+
+        //when
+        userService.update(user.getId(), "수정");
+
+        //then
+        assertEquals("수정", user.getNickname());
+    }
 }
