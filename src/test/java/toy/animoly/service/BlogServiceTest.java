@@ -42,5 +42,22 @@ class BlogServiceTest {
 
     @Test
     void update() {
+        //given
+        User user = new User();
+        user.setId("bookpark");
+        userRepository.save(user);
+        String title = "제목";
+        String content = "내용";
+        Long findBlog = blogService.create(user.getId(), title, content);
+        Blog blog = blogRepository.findById(findBlog).orElseThrow();
+
+        //when
+        String modifiedTitle = "수정된 제목";
+        String modifiedContent = "수정된 내용";
+        blogService.update(blog.getId(), modifiedTitle, modifiedContent);
+
+        //then
+        assertEquals("수정된 제목", blog.getTitle());
+        assertEquals("수정된 내용", blog.getContent());
     }
 }
