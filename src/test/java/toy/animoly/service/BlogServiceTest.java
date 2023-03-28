@@ -1,13 +1,17 @@
 package toy.animoly.service;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import toy.animoly.entity.Blog;
 import toy.animoly.entity.User;
 import toy.animoly.repository.BlogRepository;
 import toy.animoly.repository.UserRepository;
+
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,5 +63,24 @@ class BlogServiceTest {
         //then
         assertEquals("수정된 제목", blog.getTitle());
         assertEquals("수정된 내용", blog.getContent());
+    }
+
+    @Test
+    void delete() {
+        //given
+        User user = new User();
+        user.setId("bookpark");
+        userRepository.save(user);
+        String title = "제목";
+        String content = "내용";
+        Long findBlog = blogService.create(user.getId(), title, content);
+        Blog blog = blogRepository.findById(findBlog).orElseThrow();
+
+        //when
+        blogService.delete(blog.getId());
+
+        //then
+        NoSuchElementException thrown = assertThrows(NoSuchElementException.class, () -> blogService.delete(blog.getId()));
+        assertEquals("No value present", thrown.getMessage());
     }
 }
