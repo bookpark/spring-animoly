@@ -25,6 +25,9 @@ public class Comment {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Blog blog;
+
     // 연관관계 메서드 //
     public void setUser(User user) {
         this.user = user;
@@ -36,12 +39,26 @@ public class Comment {
         post.getComments().add(this);
     }
 
+    public void setBlog(Blog blog) {
+        this.blog = blog;
+        blog.getComments().add(this);
+    }
+
     // 생성 메서드 //
-    public static Comment createComment(User user, Post post) {
+    public static Comment createPostComment(User user, Post post) {
         Comment comment = new Comment();
         comment.setUser(user);
         comment.setPost(post);
         comment.setContent(post.getContent());
+        comment.setCreatedAt(LocalDateTime.now());
+        return comment;
+    }
+
+    public static Comment createBlogComment(User user, Blog blog) {
+        Comment comment = new Comment();
+        comment.setUser(user);
+        comment.setBlog(blog);
+        comment.setContent(blog.getContent());
         comment.setCreatedAt(LocalDateTime.now());
         return comment;
     }
