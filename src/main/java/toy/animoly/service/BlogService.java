@@ -1,5 +1,6 @@
 package toy.animoly.service;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +8,8 @@ import toy.animoly.entity.Blog;
 import toy.animoly.entity.User;
 import toy.animoly.repository.BlogRepository;
 import toy.animoly.repository.UserRepository;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,6 +24,10 @@ public class BlogService {
         Blog blog = Blog.createBlog(user, title, content);
         blogRepository.save(blog);
         return blog.getId();
+    }
+
+    public List<Blog> getList() {
+        return blogRepository.findAll();
     }
 
     @Transactional
