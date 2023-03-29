@@ -2,6 +2,7 @@ package toy.animoly.service;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toy.animoly.entity.Blog;
@@ -27,7 +28,7 @@ public class BlogService {
     }
 
     public List<Blog> getList() {
-        return blogRepository.findAll();
+        return blogRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 
     @Transactional
