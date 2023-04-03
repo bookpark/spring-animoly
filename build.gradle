@@ -41,7 +41,10 @@ dependencies {
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
     // org.json
     implementation 'org.json:json:20230227'
-
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 }
 
 tasks.named('test') {
