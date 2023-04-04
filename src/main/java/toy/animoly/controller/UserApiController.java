@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import toy.animoly.config.JwtProvider;
 import toy.animoly.entity.Address;
 import toy.animoly.entity.User;
 import toy.animoly.service.UserService;
@@ -15,6 +16,7 @@ import toy.animoly.service.UserService;
 public class UserApiController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
     @PostMapping("/api/users/join")
     public CreateUserResponse join(CreateUserRequest request) {
@@ -26,6 +28,17 @@ public class UserApiController {
         user.setAddress(new Address(request.getCity(), request.getStreet(), request.getZipcode()));
         String id = userService.join(user);
         return new CreateUserResponse(id);
+    }
+
+    @PostMapping("/api/users/login")
+    public ResponseEntity<?> login(LoginRequest request) {
+        User user = userService.findUser(request.getId());
+        if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            String token = jwtProvider.createToken(user);
+            return ResponseEntity.ok(new JwtResponse(request.getId(), token));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
     @PutMapping("/api/users/{id}/update")
@@ -63,6 +76,23 @@ public class UserApiController {
     }
 
     @Data
+    static class LoginRequest {
+        private String id;
+        private String password;
+    }
+
+    @Data
+    static class JwtResponse {
+        private String id;
+        private final String token;
+
+        public JwtResponse(String id, String token) {
+            this.id = id;
+            this.token = token;
+        }
+    }
+
+    @Data
     static class UpdateUserRequest {
         private String nickname;
     }
@@ -77,5 +107,4 @@ public class UserApiController {
             this.nickname = nickname;
         }
     }
-
 }
