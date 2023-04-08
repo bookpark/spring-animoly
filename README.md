@@ -13,4 +13,6 @@ toy:
       numOfRows: <페이지당요청개수>
       encodingKey: <EncodingKey>
       decodingKey: <DecodingKey>
+    jwt:
+      secretKey: <SecretKey>
 ```
