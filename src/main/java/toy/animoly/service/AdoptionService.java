@@ -10,6 +10,8 @@ import toy.animoly.repository.AdoptionRepository;
 import toy.animoly.repository.AnimalRepository;
 import toy.animoly.repository.UserRepository;
 
+import java.util.Optional;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -17,6 +19,13 @@ public class AdoptionService {
     private final AdoptionRepository adoptionRepository;
     private final UserRepository userRepository;
     private final AnimalRepository animalRepository;
+
+    /**
+     * 단건 조회
+     */
+    public Optional<Adoption> findById(Long id) {
+        return adoptionRepository.findById(id);
+    }
 
     /**
      * 입양 신청
