@@ -61,7 +61,7 @@ public class Adoption {
      * 입양 취소 승인
      */
     public void approveCancel() {
-        this.setStatus(AdoptionStatus.CANCELED);
+        this.setStatus(AdoptionStatus.CANCELLED);
     }
 
 }

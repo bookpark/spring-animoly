@@ -88,6 +88,6 @@ class AdoptionServiceTest {
         //then
         adoptionService.approveCancel(adoption.getId());
 
-        assertEquals(AdoptionStatus.CANCELED, adoption.getStatus());
+        assertEquals(AdoptionStatus.CANCELLED, adoption.getStatus());
     }
 }
