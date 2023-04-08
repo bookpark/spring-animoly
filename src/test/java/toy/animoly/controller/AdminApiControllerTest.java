@@ -43,6 +43,7 @@ class AdminApiControllerTest {
         adoptionService.apply(user.getId(), animal.getDesertionNo());
         mockMvc.perform(post("/api/admin/adoptions/1/approve-cancel"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string(String.valueOf("\"CANCELLED\"")));
     }
 }
