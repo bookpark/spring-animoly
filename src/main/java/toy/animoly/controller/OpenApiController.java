@@ -36,13 +36,14 @@ public class OpenApiController {
     private int saveNumOfRows;
 
     @GetMapping("/api/fetch-animals")
-    public Result fetchAnimals(@RequestParam(defaultValue = "1", required = false) String pageNo,
-                               @RequestParam(defaultValue = "", required = false) String upKind,
-                               @RequestParam(defaultValue = "", required = false) String kind,
-                               @RequestParam(defaultValue = "", required = false) String uprCd) throws URISyntaxException {
+    public Result fetchAnimals(@RequestParam(defaultValue = "1", required = false) String pageNo, // 페이지 넘버
+                               @RequestParam(defaultValue = "", required = false) String upKind, // 축종 코드 (개, 고양이, 기타)
+                               @RequestParam(defaultValue = "", required = false) String kind, // 품종 코드 (ex. 000054 (골든 리트리버))
+                               @RequestParam(defaultValue = "", required = false) String state, // 상태 (ex. null, notice, protect)
+                               @RequestParam(defaultValue = "", required = false) String uprCd) throws URISyntaxException { // 시군구 상위코드 (ex. 6110000)
         RestTemplate rt = new RestTemplate();
         try {
-            URI uri = new URI(apiEndPoint + detail + "?serviceKey=" + encodingKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&upkind=" + upKind + "&kind=" + kind + "&upr_cd=" + uprCd);
+            URI uri = new URI(apiEndPoint + detail + "?serviceKey=" + encodingKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&upkind=" + upKind + "&kind=" + kind + "&state=" + state + "&upr_cd=" + uprCd);
             String xmlString = rt.getForObject(uri, String.class);
             // org.json 라이브러리로 xmlString을 jsonString으로 변환
             JSONObject jsonObject = XML.toJSONObject(Objects.requireNonNull(xmlString));
