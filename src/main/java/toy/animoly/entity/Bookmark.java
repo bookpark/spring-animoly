@@ -16,15 +16,15 @@ public class Bookmark {
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Member member;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
     // 연관관계 메서드 //
-    public void setUser(User user) {
-        this.user = user;
-        user.getBookmarks().add(this);
+    public void setMember(Member member) {
+        this.member = member;
+        member.getBookmarks().add(this);
     }
 
     public void setAnimal(Animal animal) {
@@ -33,9 +33,9 @@ public class Bookmark {
     }
 
     // 생성 메서드 //
-    public static Bookmark createBookmark(User user, Animal animal) {
+    public static Bookmark createBookmark(Member member, Animal animal) {
         Bookmark bookmark = new Bookmark();
-        bookmark.setUser(user);
+        bookmark.setMember(member);
         bookmark.setAnimal(animal);
         return bookmark;
     }

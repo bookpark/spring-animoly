@@ -8,33 +8,33 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import toy.animoly.config.JwtProvider;
 import toy.animoly.entity.Address;
-import toy.animoly.entity.User;
+import toy.animoly.entity.Member;
 import toy.animoly.service.UserService;
 
 @RestController
 @RequiredArgsConstructor
-public class UserApiController {
+public class MemberApiController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
     @PostMapping("/api/users/join")
     public CreateUserResponse join(CreateUserRequest request) {
-        User user = new User();
-        user.setId(request.getId());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setNickname(request.getNickname());
-        user.setPhoneNumber(request.getPhoneNumber());
-        user.setAddress(new Address(request.getCity(), request.getStreet(), request.getZipcode()));
-        String id = userService.join(user);
+        Member member = new Member();
+        member.setId(request.getId());
+        member.setPassword(passwordEncoder.encode(request.getPassword()));
+        member.setNickname(request.getNickname());
+        member.setPhoneNumber(request.getPhoneNumber());
+        member.setAddress(new Address(request.getCity(), request.getStreet(), request.getZipcode()));
+        String id = userService.join(member);
         return new CreateUserResponse(id);
     }
 
     @PostMapping("/api/users/login")
     public ResponseEntity<?> login(LoginRequest request) {
-        User user = userService.findUser(request.getId());
-        if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            String token = jwtProvider.createToken(user);
+        Member member = userService.findUser(request.getId());
+        if (passwordEncoder.matches(request.getPassword(), member.getPassword())) {
+            String token = jwtProvider.createToken(member);
             return ResponseEntity.ok(new JwtResponse(request.getId(), token));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -45,8 +45,8 @@ public class UserApiController {
     public UpdateUserResponse update(@PathVariable("id") String id,
                                      UpdateUserRequest request) {
         userService.update(id, request.getNickname());
-        User user = userService.findUser(id);
-        return new UpdateUserResponse(user.getId(), user.getNickname());
+        Member member = userService.findUser(id);
+        return new UpdateUserResponse(member.getId(), member.getNickname());
     }
 
     @DeleteMapping("/api/users/{id}/delete")

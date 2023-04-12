@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import toy.animoly.repository.UserRepository;
+import toy.animoly.repository.MemberRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
@@ -13,11 +13,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserApiControllerTest {
+class MemberApiControllerTest {
     @Autowired
     MockMvc mockMvc;
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
     @Test
     void join() throws Exception {
@@ -38,6 +38,6 @@ class UserApiControllerTest {
                         .param("zipcode", zipcode))
                 .andExpect(status().isOk());
 
-        assertEquals("bookpark", userRepository.findById("bookpark").orElseThrow().getId());
+        assertEquals("bookpark", memberRepository.findById("bookpark").orElseThrow().getId());
     }
 }

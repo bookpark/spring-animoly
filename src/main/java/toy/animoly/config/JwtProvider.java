@@ -4,7 +4,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import toy.animoly.entity.User;
+import toy.animoly.entity.Member;
 
 import javax.annotation.PostConstruct;
 import java.util.Base64;
@@ -21,9 +21,9 @@ public class JwtProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(User user) {
+    public String createToken(Member member) {
         return Jwts.builder()
-                .setSubject(user.getId())
+                .setSubject(member.getId())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 864_000_000))
                 .signWith(SignatureAlgorithm.HS256, secretKey).compact();

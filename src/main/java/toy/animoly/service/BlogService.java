@@ -1,14 +1,13 @@
 package toy.animoly.service;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toy.animoly.entity.Blog;
-import toy.animoly.entity.User;
+import toy.animoly.entity.Member;
 import toy.animoly.repository.BlogRepository;
-import toy.animoly.repository.UserRepository;
+import toy.animoly.repository.MemberRepository;
 
 import java.util.List;
 
@@ -17,12 +16,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BlogService {
     private final BlogRepository blogRepository;
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public Long create(String id, String title, String content) {
-        User user = userRepository.findById(id).orElseThrow();
-        Blog blog = Blog.createBlog(user, title, content);
+        Member member = memberRepository.findById(id).orElseThrow();
+        Blog blog = Blog.createBlog(member, title, content);
         blogRepository.save(blog);
         return blog.getId();
     }

@@ -1,6 +1,5 @@
 package toy.animoly.entity;
 
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,27 +10,33 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class User {
-
+public class Member {
     @Id
     @Column(name = "user_id")
     private String id;
     private String password;
+    private String name;
     private String nickname;
     private String phoneNumber;
+
     @Embedded
     private Address address;
+
     @Column
     private String role;
-    @OneToMany(mappedBy = "user")
-    private List<Post> posts = new ArrayList<>();
-    @OneToMany(mappedBy = "user")
-    private List<Comment> comments = new ArrayList<>();
-    @OneToMany(mappedBy = "user")
-    private List<Blog> blogs = new ArrayList<>();
-    @OneToMany(mappedBy = "user")
-    private List<Adoption> adoptions = new ArrayList<>();
-    @OneToMany(mappedBy = "user")
-    private List<Bookmark> bookmarks = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Blog> blogs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Adoption> adoptions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Bookmark> bookmarks = new ArrayList<>();
 }

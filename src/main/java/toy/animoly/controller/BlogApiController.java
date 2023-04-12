@@ -3,12 +3,10 @@ package toy.animoly.controller;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import toy.animoly.entity.Blog;
-import toy.animoly.entity.User;
 import toy.animoly.service.BlogService;
 
 import java.time.LocalDateTime;
@@ -34,7 +32,7 @@ public class BlogApiController {
                         b.getTitle(),
                         b.getContent(),
                         b.getCreatedAt(),
-                        b.getUser().getNickname()
+                        b.getMember().getNickname()
                 )).collect(Collectors.toList());
     }
 
@@ -47,7 +45,7 @@ public class BlogApiController {
                         b.getTitle(),
                         b.getContent(),
                         b.getCreatedAt(),
-                        b.getUser().getNickname()
+                        b.getMember().getNickname()
                 )).collect(Collectors.toList());
         return new Result(collect);
     }

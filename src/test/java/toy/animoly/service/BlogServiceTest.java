@@ -1,15 +1,13 @@
 package toy.animoly.service;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import toy.animoly.entity.Blog;
-import toy.animoly.entity.User;
+import toy.animoly.entity.Member;
 import toy.animoly.repository.BlogRepository;
-import toy.animoly.repository.UserRepository;
+import toy.animoly.repository.MemberRepository;
 
 import java.util.NoSuchElementException;
 
@@ -20,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BlogServiceTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
     @Autowired
     private BlogRepository blogRepository;
     @Autowired
@@ -29,14 +27,14 @@ class BlogServiceTest {
     @Test
     void create() {
         //given
-        User user = new User();
-        user.setId("bookpark");
-        userRepository.save(user);
+        Member member = new Member();
+        member.setId("bookpark");
+        memberRepository.save(member);
         String title = "제목";
         String content = "내용";
 
         //when
-        Long findBlog = blogService.create(user.getId(), title, content);
+        Long findBlog = blogService.create(member.getId(), title, content);
         Blog blog = blogRepository.findById(findBlog).orElseThrow();
 
         //then
@@ -47,12 +45,12 @@ class BlogServiceTest {
     @Test
     void update() {
         //given
-        User user = new User();
-        user.setId("bookpark");
-        userRepository.save(user);
+        Member member = new Member();
+        member.setId("bookpark");
+        memberRepository.save(member);
         String title = "제목";
         String content = "내용";
-        Long findBlog = blogService.create(user.getId(), title, content);
+        Long findBlog = blogService.create(member.getId(), title, content);
         Blog blog = blogRepository.findById(findBlog).orElseThrow();
 
         //when
@@ -68,12 +66,12 @@ class BlogServiceTest {
     @Test
     void delete() {
         //given
-        User user = new User();
-        user.setId("bookpark");
-        userRepository.save(user);
+        Member member = new Member();
+        member.setId("bookpark");
+        memberRepository.save(member);
         String title = "제목";
         String content = "내용";
-        Long findBlog = blogService.create(user.getId(), title, content);
+        Long findBlog = blogService.create(member.getId(), title, content);
         Blog blog = blogRepository.findById(findBlog).orElseThrow();
 
         //when

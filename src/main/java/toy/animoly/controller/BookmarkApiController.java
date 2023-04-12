@@ -37,7 +37,7 @@ public class BookmarkApiController {
 
         public BookmarkDto(Bookmark bookmark) {
             bookmarkId = bookmark.getId();
-            userId = bookmark.getUser().getId();
+            userId = bookmark.getMember().getId();
             desertionNo = bookmark.getAnimal().getDesertionNo();
         }
     }

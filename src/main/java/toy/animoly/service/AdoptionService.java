@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toy.animoly.entity.Adoption;
 import toy.animoly.entity.Animal;
-import toy.animoly.entity.User;
+import toy.animoly.entity.Member;
 import toy.animoly.repository.AdoptionRepository;
 import toy.animoly.repository.AnimalRepository;
-import toy.animoly.repository.UserRepository;
+import toy.animoly.repository.MemberRepository;
 
 import java.util.Optional;
 
@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdoptionService {
     private final AdoptionRepository adoptionRepository;
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
     private final AnimalRepository animalRepository;
 
     /**
@@ -33,11 +33,11 @@ public class AdoptionService {
     @Transactional
     public Long apply(String userId, Long animalId) {
         // 엔티티 조회
-        User user = userRepository.findById(userId).orElseThrow();
+        Member member = memberRepository.findById(userId).orElseThrow();
         Animal animal = animalRepository.findById(animalId).orElseThrow();
 
         // 신청서 생성
-        Adoption adoption = Adoption.createAdoption(user, animal);
+        Adoption adoption = Adoption.createAdoption(member, animal);
 
         // 저장
         adoptionRepository.save(adoption);

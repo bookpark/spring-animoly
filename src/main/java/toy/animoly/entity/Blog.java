@@ -23,20 +23,20 @@ public class Blog {
     private LocalDateTime createdAt;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Member member;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     // 연관관계 메서드 //
-    public void setUser(User user) {
-        this.user = user;
-        user.getBlogs().add(this);
+    public void setMember(Member member) {
+        this.member = member;
+        member.getBlogs().add(this);
     }
 
     // 생성 메서드 //
-    public static Blog createBlog(User user, String title, String content) {
+    public static Blog createBlog(Member member, String title, String content) {
         Blog blog = new Blog();
-        blog.setUser(user);
+        blog.setMember(member);
         blog.setTitle(title);
         blog.setContent(content);
         blog.setCreatedAt(LocalDateTime.now());

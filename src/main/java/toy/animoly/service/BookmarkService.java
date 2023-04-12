@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toy.animoly.entity.Animal;
 import toy.animoly.entity.Bookmark;
-import toy.animoly.entity.User;
+import toy.animoly.entity.Member;
 import toy.animoly.repository.AnimalRepository;
 import toy.animoly.repository.BookmarkRepository;
-import toy.animoly.repository.UserRepository;
+import toy.animoly.repository.MemberRepository;
 
 import java.util.List;
 
@@ -17,14 +17,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookmarkService {
     private final BookmarkRepository bookmarkRepository;
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
     private final AnimalRepository animalRepository;
 
     @Transactional
     public Long createBookmark(String userId, Long desertionNo) {
-        User getUser = userRepository.findById(userId).orElseThrow();
+        Member getMember = memberRepository.findById(userId).orElseThrow();
         Animal getAnimal = animalRepository.findByDesertionNo(desertionNo);
-        Bookmark bookmark = Bookmark.createBookmark(getUser, getAnimal);
+        Bookmark bookmark = Bookmark.createBookmark(getMember, getAnimal);
         return bookmark.getId();
     }
 
@@ -35,7 +35,7 @@ public class BookmarkService {
     }
 
     public List<Bookmark> getList(String userId) {
-        User user = userRepository.findById(userId).orElseThrow();
-        return user.getBookmarks();
+        Member member = memberRepository.findById(userId).orElseThrow();
+        return member.getBookmarks();
     }
 }

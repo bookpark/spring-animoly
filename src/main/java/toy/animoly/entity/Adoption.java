@@ -20,15 +20,15 @@ public class Adoption {
     private AdoptionStatus status;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Member member;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "animal_id")
     private Animal animal;
 
     // 연관관계 메서드 //
-    public void setUser(User user) {
-        this.user = user;
-        user.getAdoptions().add(this);
+    public void setMember(Member member) {
+        this.member = member;
+        member.getAdoptions().add(this);
     }
 
     public void setAnimal(Animal animal) {
@@ -37,9 +37,9 @@ public class Adoption {
     }
 
     // 생성 메서드 //
-    public static Adoption createAdoption(User user, Animal animal) {
+    public static Adoption createAdoption(Member member, Animal animal) {
         Adoption adoption = new Adoption();
-        adoption.setUser(user);
+        adoption.setMember(member);
         adoption.setAnimal(animal);
         adoption.setStatus(AdoptionStatus.APPLIED);
         adoption.setApplyDate(LocalDateTime.now());

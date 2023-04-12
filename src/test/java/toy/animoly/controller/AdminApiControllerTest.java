@@ -7,10 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import toy.animoly.entity.Animal;
-import toy.animoly.entity.User;
+import toy.animoly.entity.Member;
 import toy.animoly.repository.AdoptionRepository;
 import toy.animoly.repository.AnimalRepository;
-import toy.animoly.repository.UserRepository;
+import toy.animoly.repository.MemberRepository;
 import toy.animoly.service.AdoptionService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -26,7 +26,7 @@ class AdminApiControllerTest {
     @Autowired
     AdoptionRepository adoptionRepository;
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
     @Autowired
     AnimalRepository animalRepository;
     @Autowired
@@ -34,13 +34,13 @@ class AdminApiControllerTest {
 
     @Test
     void approveCancel() throws Exception {
-        User user = new User();
-        user.setId("bookpark");
-        userRepository.save(user);
+        Member member = new Member();
+        member.setId("bookpark");
+        memberRepository.save(member);
         Animal animal = new Animal();
         animal.setDesertionNo(1L);
         animalRepository.save(animal);
-        adoptionService.apply(user.getId(), animal.getDesertionNo());
+        adoptionService.apply(member.getId(), animal.getDesertionNo());
         mockMvc.perform(post("/api/admin/adoptions/1/approve-cancel"))
                 .andDo(print())
                 .andExpect(status().isOk())

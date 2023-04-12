@@ -25,18 +25,18 @@ public class Post {
     private List<Comment> comments = new ArrayList<>();
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Member member;
 
     // 연관관계 메서드 //
-    public void setUser(User user) {
-        this.user = user;
-        user.getPosts().add(this);
+    public void setMember(Member member) {
+        this.member = member;
+        member.getPosts().add(this);
     }
 
     // 생성 메서드 //
-    public static Post createPost(User user) {
+    public static Post createPost(Member member) {
         Post post = new Post();
-        post.setUser(user);
+        post.setMember(member);
         post.setTitle(post.getTitle());
         post.setContent(post.getContent());
         post.setCreatedAt(LocalDateTime.now());

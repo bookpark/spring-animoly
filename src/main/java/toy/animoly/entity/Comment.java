@@ -20,7 +20,7 @@ public class Comment {
     private Boolean isModified;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Member member;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
@@ -29,9 +29,9 @@ public class Comment {
     private Blog blog;
 
     // 연관관계 메서드 //
-    public void setUser(User user) {
-        this.user = user;
-        user.getComments().add(this);
+    public void setMember(Member member) {
+        this.member = member;
+        member.getComments().add(this);
     }
 
     public void setPost(Post post) {
@@ -45,18 +45,18 @@ public class Comment {
     }
 
     // 생성 메서드 //
-    public static Comment createPostComment(User user, Post post) {
+    public static Comment createPostComment(Member member, Post post) {
         Comment comment = new Comment();
-        comment.setUser(user);
+        comment.setMember(member);
         comment.setPost(post);
         comment.setContent(post.getContent());
         comment.setCreatedAt(LocalDateTime.now());
         return comment;
     }
 
-    public static Comment createBlogComment(User user, Blog blog) {
+    public static Comment createBlogComment(Member member, Blog blog) {
         Comment comment = new Comment();
-        comment.setUser(user);
+        comment.setMember(member);
         comment.setBlog(blog);
         comment.setContent(blog.getContent());
         comment.setCreatedAt(LocalDateTime.now());

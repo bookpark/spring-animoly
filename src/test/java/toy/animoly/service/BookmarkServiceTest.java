@@ -6,10 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import toy.animoly.entity.Animal;
 import toy.animoly.entity.Bookmark;
-import toy.animoly.entity.User;
+import toy.animoly.entity.Member;
 import toy.animoly.repository.AnimalRepository;
 import toy.animoly.repository.BookmarkRepository;
-import toy.animoly.repository.UserRepository;
+import toy.animoly.repository.MemberRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class BookmarkServiceTest {
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
     @Autowired
     AnimalRepository animalRepository;
     @Autowired
@@ -31,36 +31,36 @@ class BookmarkServiceTest {
     @Test
     void createBookmark() {
         //given
-        User user = new User();
-        user.setId("Booki");
-        userRepository.save(user);
-        assertEquals("Booki", user.getId());
+        Member member = new Member();
+        member.setId("Booki");
+        memberRepository.save(member);
+        assertEquals("Booki", member.getId());
         Animal animal = new Animal();
         animal.setDesertionNo(1L);
         animalRepository.save(animal);
         assertEquals(1L, animal.getDesertionNo());
 
         //when
-        Bookmark bookmark = Bookmark.createBookmark(user, animal);
+        Bookmark bookmark = Bookmark.createBookmark(member, animal);
         bookmarkRepository.save(bookmark);
 
         //then
-        assertEquals("Booki", bookmark.getUser().getId());
+        assertEquals("Booki", bookmark.getMember().getId());
         assertEquals(1L, bookmark.getAnimal().getDesertionNo());
     }
 
     @Test
     void deleteBookmark() {
         //given
-        User user = new User();
-        user.setId("Booki");
-        userRepository.save(user);
-        assertEquals("Booki", user.getId());
+        Member member = new Member();
+        member.setId("Booki");
+        memberRepository.save(member);
+        assertEquals("Booki", member.getId());
         Animal animal = new Animal();
         animal.setDesertionNo(1L);
         animalRepository.save(animal);
         assertEquals(1L, animal.getDesertionNo());
-        Bookmark bookmark = Bookmark.createBookmark(user, animal);
+        Bookmark bookmark = Bookmark.createBookmark(member, animal);
         bookmarkRepository.save(bookmark);
         Long id = bookmark.getId();
         System.out.println(id);
@@ -76,16 +76,16 @@ class BookmarkServiceTest {
     @Test
     void getList() {
         //given
-        User user = new User();
-        user.setId("bookpark");
-        userRepository.save(user);
+        Member member = new Member();
+        member.setId("bookpark");
+        memberRepository.save(member);
         Animal animal = new Animal();
         animal.setDesertionNo(1L);
         animalRepository.save(animal);
-        bookmarkService.createBookmark(user.getId(), animal.getDesertionNo());
+        bookmarkService.createBookmark(member.getId(), animal.getDesertionNo());
 
         //when
-        List<Bookmark> list = bookmarkService.getList(user.getId());
+        List<Bookmark> list = bookmarkService.getList(member.getId());
 
         //then
         assertEquals(1, list.size());
