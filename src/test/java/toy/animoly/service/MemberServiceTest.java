@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class MemberServiceTest {
     @Autowired
-    private UserService userService;
+    private MemberService memberService;
     @Autowired
     private MemberRepository memberRepository;
 
@@ -24,7 +24,7 @@ class MemberServiceTest {
         member.setId("bookpark");
 
         //when
-        String savedId = userService.join(member);
+        String savedId = memberService.join(member);
 
         //then
         assertEquals("bookpark", memberRepository.findById(savedId).get().getId());
@@ -40,10 +40,10 @@ class MemberServiceTest {
         member2.setId("bookpark");
 
         //when
-        userService.join(member1);
+        memberService.join(member1);
 
         //then
-        IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> userService.join(member2));
+        IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> memberService.join(member2));
         assertEquals("이미 존재하는 ID입니다.", thrown.getMessage());
     }
 
@@ -56,7 +56,7 @@ class MemberServiceTest {
         memberRepository.save(member);
 
         //when
-        userService.update(member.getId(), "수정");
+        memberService.update(member.getId(), "수정");
 
         //then
         assertEquals("수정", member.getNickname());

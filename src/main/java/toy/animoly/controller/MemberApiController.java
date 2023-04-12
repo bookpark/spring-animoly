@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import toy.animoly.config.JwtProvider;
 import toy.animoly.entity.Address;
 import toy.animoly.entity.Member;
-import toy.animoly.service.UserService;
+import toy.animoly.service.MemberService;
 
 @RestController
 @RequiredArgsConstructor
 public class MemberApiController {
-    private final UserService userService;
+    private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
@@ -27,13 +27,13 @@ public class MemberApiController {
         member.setNickname(request.getNickname());
         member.setPhoneNumber(request.getPhoneNumber());
         member.setAddress(new Address(request.getCity(), request.getStreet(), request.getZipcode()));
-        String id = userService.join(member);
+        String id = memberService.join(member);
         return new CreateUserResponse(id);
     }
 
     @PostMapping("/api/users/login")
     public ResponseEntity<?> login(LoginRequest request) {
-        Member member = userService.findUser(request.getId());
+        Member member = memberService.findUser(request.getId());
         if (passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             String token = jwtProvider.createToken(member);
             return ResponseEntity.ok(new JwtResponse(request.getId(), token));
@@ -45,14 +45,14 @@ public class MemberApiController {
     @PutMapping("/api/users/{id}/update")
     public UpdateUserResponse update(@PathVariable("id") String id,
                                      UpdateUserRequest request) {
-        userService.update(id, request.getNickname());
-        Member member = userService.findUser(id);
+        memberService.update(id, request.getNickname());
+        Member member = memberService.findUser(id);
         return new UpdateUserResponse(member.getId(), member.getNickname());
     }
 
     @DeleteMapping("/api/users/{id}/delete")
     public ResponseEntity<String> delete(@PathVariable("id") String id) {
-        userService.delete(id);
+        memberService.delete(id);
         return new ResponseEntity<String>("회원 탈퇴 성공", HttpStatus.OK);
     }
 
