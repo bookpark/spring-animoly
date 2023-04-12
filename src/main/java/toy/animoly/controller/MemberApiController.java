@@ -23,6 +23,7 @@ public class MemberApiController {
         Member member = new Member();
         member.setId(request.getId());
         member.setPassword(passwordEncoder.encode(request.getPassword()));
+        member.setName(request.getName());
         member.setNickname(request.getNickname());
         member.setPhoneNumber(request.getPhoneNumber());
         member.setAddress(new Address(request.getCity(), request.getStreet(), request.getZipcode()));
@@ -59,6 +60,7 @@ public class MemberApiController {
     static class CreateUserRequest {
         private String id;
         private String password;
+        private String name;
         private String nickname;
         private String phoneNumber;
         private String city;
