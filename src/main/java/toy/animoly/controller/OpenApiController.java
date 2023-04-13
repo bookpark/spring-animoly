@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import toy.animoly.entity.Animal;
@@ -42,6 +43,9 @@ public class OpenApiController {
                                @RequestParam(defaultValue = "", required = false) String state, // 상태 (ex. null, notice, protect)
                                @RequestParam(defaultValue = "", required = false) String neuter_yn, // 중성화 (ex. Y, N, U)
                                @RequestParam(defaultValue = "", required = false) String uprCd) throws URISyntaxException { // 시군구 상위코드 (ex. 6110000)
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
         RestTemplate rt = new RestTemplate();
         try {
             URI uri = new URI(apiEndPoint + detail + "?serviceKey=" + encodingKey + "&numOfRows=" + numOfRows + "&pageNo=" + pageNo + "&upkind=" + upKind + "&kind=" + kind + "&state=" + state + "&neuter_yn=" + neuter_yn + "&upr_cd=" + uprCd);
@@ -68,6 +72,9 @@ public class OpenApiController {
             // 페이지 당 갯수 가져오기
             Object numOfRowsObject = jsonBody.get("numOfRows");
             String numOfRowsString = numOfRowsObject.toString();
+
+            stopWatch.stop();
+            System.out.println(stopWatch.prettyPrint());
 
             return new Result(collect, pageNo, jsonItem.length(), totalCountString);
         } catch (ClassCastException e) {
