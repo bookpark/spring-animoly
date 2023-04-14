@@ -24,6 +24,7 @@ public class OrderService {
     /**
      * 주문
      */
+    @Transactional
     public Long order(String memberId, Long itemId, int count) {
         Member member = memberRepository.findById(memberId).orElseThrow();
         Item item = itemRepository.findById(itemId).orElseThrow();
@@ -42,6 +43,7 @@ public class OrderService {
     /**
      * 주문 취소
      */
+    @Transactional
     public void cancelOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow();
         order.cancelOrder();
