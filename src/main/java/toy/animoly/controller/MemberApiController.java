@@ -26,7 +26,7 @@ public class MemberApiController {
         member.setName(request.getName());
         member.setNickname(request.getNickname());
         member.setPhoneNumber(request.getPhoneNumber());
-        member.setAddress(new Address(request.getCity(), request.getStreet(), request.getZipcode()));
+        member.setAddress(new Address(request.getAddress1(), request.getAddress2(), request.getZipcode()));
         String id = memberService.join(member);
         return new CreateUserResponse(id);
     }
@@ -63,8 +63,8 @@ public class MemberApiController {
         private String name;
         private String nickname;
         private String phoneNumber;
-        private String city;
-        private String street;
+        private String address1;
+        private String address2;
         private String zipcode;
     }
 
