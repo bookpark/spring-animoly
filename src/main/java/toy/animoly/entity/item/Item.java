@@ -2,6 +2,7 @@ package toy.animoly.entity.item;
 
 import lombok.Getter;
 import toy.animoly.entity.CategoryItem;
+import toy.animoly.exception.NotEnoughStockException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,5 +26,24 @@ public abstract class Item {
 
     @OneToMany(mappedBy = "item")
     private List<CategoryItem> categoryItems = new ArrayList<>();
+
+    // 비즈니스 로직 //
+    /**
+     * 재고 증가
+     */
+    public void increaseStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
+
+    /**
+     * 재고 감소
+     */
+    public void decreaseStock(int quantity) {
+        int remainingStock = this.stockQuantity - quantity;
+        if (remainingStock < 0) {
+            throw new NotEnoughStockException("재고 부족");
+        }
+        this.stockQuantity -= quantity;
+    }
 
 }
