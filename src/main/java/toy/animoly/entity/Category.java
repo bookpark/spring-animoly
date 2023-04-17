@@ -1,6 +1,8 @@
 package toy.animoly.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@RequiredArgsConstructor
 public class Category {
 
     @Id
@@ -17,36 +20,29 @@ public class Category {
 
     private String name;
 
-    private int depth;
-
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_category_id")
-    private Category parentCategory;
+    @JoinColumn(name = "parent_id")
+    private Category parent;
 
-    @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
-    private List<Category> childCategories = new ArrayList<>();
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Category> children = new ArrayList<>();
 
     @OneToMany(mappedBy = "category")
-    private List<CategoryItem> categoryItems = new ArrayList<>();
+    private List<CategoryItem> items = new ArrayList<>();
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void setParentCategory(Category parentCategory) {
-        this.parentCategory = parentCategory;
+        this.parent = parentCategory;
     }
 
     // 연관관계 메서드 //
     public void addChildCategory(Category child) {
-        this.childCategories.add(child);
+        this.children.add(child);
         child.setParentCategory(this);
-    }
-
-    // 생성 메서드 //
-    /**
-     * 카테고리 추가
-     */
-    public static Category createCategory(Category child) {
-        Category category = new Category();
-        category.addChildCategory(child);
-        return category;
     }
 
 }
