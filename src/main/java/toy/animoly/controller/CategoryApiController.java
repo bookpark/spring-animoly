@@ -1,10 +1,9 @@
 package toy.animoly.controller;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import toy.animoly.dto.CreateCategoryRequest;
+import toy.animoly.dto.CreateCategoryResponse;
 import toy.animoly.entity.Category;
 import toy.animoly.service.CategoryService;
 
@@ -16,10 +15,10 @@ public class CategoryApiController {
 
     private final CategoryService categoryService;
 
-    @PostMapping("/api/categories/create")
-    public ResponseEntity<Category> createCategory(String parent, String categoryName) {
-        Category newCategory = categoryService.createCategory(parent, categoryName);
-        return new ResponseEntity<>(newCategory, HttpStatus.CREATED);
+    @PostMapping("/api/categories")
+    public CreateCategoryResponse createCategory(CreateCategoryRequest request) {
+        Category category = categoryService.createCategory(request.getParentName(), request.getNewName());
+        return new CreateCategoryResponse(category);
     }
 
     @GetMapping("/api/categories")
