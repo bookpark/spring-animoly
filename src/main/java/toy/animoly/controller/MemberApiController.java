@@ -1,12 +1,12 @@
 package toy.animoly.controller;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import toy.animoly.config.JwtProvider;
+import toy.animoly.dto.*;
 import toy.animoly.entity.Address;
 import toy.animoly.entity.Member;
 import toy.animoly.service.MemberService;
@@ -14,6 +14,7 @@ import toy.animoly.service.MemberService;
 @RestController
 @RequiredArgsConstructor
 public class MemberApiController {
+
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
@@ -56,57 +57,4 @@ public class MemberApiController {
         return new ResponseEntity<String>("회원 탈퇴 성공", HttpStatus.OK);
     }
 
-    @Data
-    static class CreateUserRequest {
-        private String id;
-        private String password;
-        private String name;
-        private String nickname;
-        private String phoneNumber;
-        private String address1;
-        private String address2;
-        private String zipcode;
-    }
-
-    @Data
-    static class CreateUserResponse {
-        private String id;
-
-        public CreateUserResponse(String id) {
-            this.id = id;
-        }
-    }
-
-    @Data
-    static class LoginRequest {
-        private String id;
-        private String password;
-    }
-
-    @Data
-    static class JwtResponse {
-        private String id;
-        private final String token;
-
-        public JwtResponse(String id, String token) {
-            this.id = id;
-            this.token = token;
-        }
-    }
-
-    @Data
-    static class UpdateUserRequest {
-        private String nickname;
-    }
-
-    @Data
-    static class UpdateUserResponse {
-        private String id;
-        private String nickname;
-
-        public UpdateUserResponse(String id, String nickname) {
-            this.id = id;
-            this.nickname = nickname;
-        }
-    }
 }
