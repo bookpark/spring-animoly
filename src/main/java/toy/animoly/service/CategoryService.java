@@ -1,6 +1,5 @@
 package toy.animoly.service;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,15 +17,17 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Transactional
-    public Category createCategory(String parent, String categoryName) {
-        Category parentCategory = categoryRepository.findByName(parent).orElse(null);
-        Category childCategory = new Category();
-        childCategory.setName(categoryName);
+    public Category createCategory(String parentName, String newName) {
+        Category parentCategory = categoryRepository.findByName(parentName).orElse(null);
+        Category newCategory = new Category();
+        newCategory.setName(newName);
         if (parentCategory != null) {
-            parentCategory.addChildCategory(childCategory);
+            parentCategory.addChildCategory(newCategory);
+            return parentCategory;
         }
-        categoryRepository.save(childCategory);
-        return parentCategory;
+        validateDuplicateCategory(newCategory);
+        categoryRepository.save(newCategory);
+        return newCategory;
     }
 
     public List<Category> findCategories() {
@@ -41,10 +42,11 @@ public class CategoryService {
         return categoryRepository.findByName(name);
     }
 
-    @Data
-    static class CreateCategoryRequest {
-        private Long parentId;
-        private String name;
+    private void validateDuplicateCategory(Category category) {
+        Optional<Category> findCategory = categoryRepository.findByName(category.getName());
+        if (findCategory.isPresent()) {
+            throw new IllegalStateException("이미 존재하는 카테고리입니다.");
+        }
     }
 
 }
