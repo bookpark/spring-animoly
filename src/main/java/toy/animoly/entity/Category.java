@@ -3,6 +3,7 @@ package toy.animoly.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import toy.animoly.repository.CategoryRepository;
 
 import javax.persistence.*;
 import java.util.ArrayList;

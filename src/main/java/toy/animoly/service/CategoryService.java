@@ -1,6 +1,7 @@
 package toy.animoly.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toy.animoly.entity.Category;
@@ -29,6 +30,13 @@ public class CategoryService {
         validateDuplicateCategory(newCategory);
         categoryRepository.save(newCategory);
         return newCategory;
+    }
+
+    @Transactional
+    public void deleteCategory(String categoryName) {
+        Category category = categoryRepository.findByName(categoryName).orElse(null);
+        assert category != null;
+        categoryRepository.delete(category);
     }
 
     public Set<Category> findCategories() {
