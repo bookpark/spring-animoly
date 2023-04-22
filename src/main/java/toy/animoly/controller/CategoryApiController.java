@@ -8,6 +8,7 @@ import toy.animoly.entity.Category;
 import toy.animoly.service.CategoryService;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class CategoryApiController {
     }
 
     @GetMapping("/api/categories")
-    public List<Category> getCategories() {
+    public Set<Category> getCategories() {
         return categoryService.findCategories();
     }
 

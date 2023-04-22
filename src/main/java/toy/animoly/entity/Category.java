@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -26,7 +28,7 @@ public class Category {
     private Category parent;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Category> children = new ArrayList<>();
+    private Set<Category> children = new HashSet<>();
 
     @OneToMany(mappedBy = "category")
     private List<CategoryItem> items = new ArrayList<>();

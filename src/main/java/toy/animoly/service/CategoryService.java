@@ -8,6 +8,7 @@ import toy.animoly.repository.CategoryRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,7 +31,7 @@ public class CategoryService {
         return newCategory;
     }
 
-    public List<Category> findCategories() {
+    public Set<Category> findCategories() {
         return categoryRepository.findByParentIsNull();
     }
 
