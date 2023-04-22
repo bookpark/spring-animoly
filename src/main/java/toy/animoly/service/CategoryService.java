@@ -1,13 +1,11 @@
 package toy.animoly.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toy.animoly.entity.Category;
 import toy.animoly.repository.CategoryRepository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -45,10 +43,6 @@ public class CategoryService {
 
     public Category findCategory(Long categoryId) {
         return categoryRepository.findById(categoryId).orElseThrow();
-    }
-
-    public Optional<Category> findCategoryByName(String name) {
-        return categoryRepository.findByName(name);
     }
 
     private void validateDuplicateCategory(Category category) {
