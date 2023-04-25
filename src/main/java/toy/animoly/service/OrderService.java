@@ -10,7 +10,10 @@ import toy.animoly.entity.OrderItem;
 import toy.animoly.entity.item.Item;
 import toy.animoly.repository.ItemRepository;
 import toy.animoly.repository.MemberRepository;
+import toy.animoly.repository.OrderJpaRepository;
 import toy.animoly.repository.OrderRepository;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -18,6 +21,7 @@ import toy.animoly.repository.OrderRepository;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderJpaRepository orderJpaRepository;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
 
@@ -38,6 +42,10 @@ public class OrderService {
 
         orderRepository.save(order);
         return order.getId();
+    }
+
+    public List<Order> findAllWithItem() {
+        return orderJpaRepository.findAllWithItem();
     }
 
     /**
