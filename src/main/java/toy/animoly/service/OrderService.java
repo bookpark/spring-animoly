@@ -1,5 +1,6 @@
 package toy.animoly.service;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,8 +45,8 @@ public class OrderService {
         return order.getId();
     }
 
-    public List<Order> findAllWithItem() {
-        return orderJpaRepository.findAllWithItem();
+    public JPAQuery<Order> findAllWithItem() {
+        return orderJpaRepository.findAllWithItemQuerydsl();
     }
 
     /**

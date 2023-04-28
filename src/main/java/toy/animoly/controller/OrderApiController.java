@@ -1,5 +1,6 @@
 package toy.animoly.controller;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,7 @@ public class OrderApiController {
 
     @GetMapping("/api/orders")
     public List<OrderDto> orders() {
-        List<Order> orders = orderService.findAllWithItem();
+        JPAQuery<Order> orders = orderService.findAllWithItem();
         return orders.stream()
                 .map(OrderDto::new)
                 .collect(Collectors.toList());
